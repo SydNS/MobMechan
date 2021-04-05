@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "193115830562",
+    "firebase_url": "https://mobilemechan-default-rtdb.firebaseio.com",
+    "project_id": "mobilemechan",
+    "storage_bucket": "mobilemechan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193115830562:android:ff1317ac97f2368f570d7b",
+        "android_client_info": {
+          "package_name": "com.example.mobmechan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193115830562-2vbl7c9qvnq5dnu7e9aah75irqf2e9iv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZT5MHKJcC3P-LB5PP2aq2PQ-b_h1lwvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193115830562-2vbl7c9qvnq5dnu7e9aah75irqf2e9iv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
