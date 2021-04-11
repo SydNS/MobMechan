@@ -88,8 +88,8 @@ class DriverLoginRegisterActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             currentUserId = mAuth!!.currentUser.uid
                             driversDatabaseRef =
-                                FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child("Drivers").child(currentUserId!!)
+                                FirebaseDatabase.getInstance("https://mobilemechan-default-rtdb.firebaseio.com/").reference.child("Users")
+                                    .child("Mechanics").child(currentUserId!!)
                             driversDatabaseRef!!.setValue(true)
                             val intent = Intent(
                                 this@DriverLoginRegisterActivity,
