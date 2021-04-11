@@ -89,7 +89,7 @@ class CustomersMapActivity : FragmentActivity(), OnMapReadyCallback, GoogleApiCl
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment: SupportMapFragment = getSupportFragmentManager()
+        val mapFragment: SupportMapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         SettingsButton!!.setOnClickListener {

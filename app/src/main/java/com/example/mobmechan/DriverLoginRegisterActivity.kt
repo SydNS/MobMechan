@@ -89,7 +89,7 @@ class DriverLoginRegisterActivity : AppCompatActivity() {
                             currentUserId = mAuth!!.currentUser.uid
                             driversDatabaseRef =
                                 FirebaseDatabase.getInstance("https://mobilemechan-default-rtdb.firebaseio.com/").reference.child("Users")
-                                    .child("Mechanics").child(currentUserId!!)
+                                    .child("Drivers").child(currentUserId!!)
                             driversDatabaseRef!!.setValue(true)
                             val intent = Intent(
                                 this@DriverLoginRegisterActivity,
@@ -109,6 +109,7 @@ class DriverLoginRegisterActivity : AppCompatActivity() {
             }
         }
         LoginDriverButton!!.setOnClickListener {
+
             val email = DriverEmail!!.text.toString()
             val password = DriverPassword!!.text.toString()
             if (TextUtils.isEmpty(email)) {
@@ -143,8 +144,9 @@ class DriverLoginRegisterActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@DriverLoginRegisterActivity,
-                            "Error Occurred, while Signing In... ",
-                            Toast.LENGTH_SHORT
+                            "Error Occurred, while Signing In...${task.exception?.message.toString()
+                            } ",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }
