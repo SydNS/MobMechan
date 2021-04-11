@@ -174,7 +174,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun validateAndSaveOnlyInformation() {
-        if (TextUtils.isEmpty(nameEditText.getText().toString())) {
+        if (TextUtils.isEmpty(nameEditText?.getText().toString())) {
             Toast.makeText(this, "Please provide your name.", Toast.LENGTH_SHORT).show()
         } else if (TextUtils.isEmpty(phoneEditText?.text.toString())) {
             Toast.makeText(this, "Please provide your phone number.", Toast.LENGTH_SHORT).show()
