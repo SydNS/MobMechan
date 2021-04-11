@@ -2,7 +2,6 @@
 
 package com.example.mobmechan
 
-import android.app.Instrumentation
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -13,22 +12,15 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
-import java.lang.Exception
-import java.lang.reflect.TypeVariable
-import java.util.HashMap
+import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
     private var getType: String? = null
@@ -53,7 +45,7 @@ class SettingsActivity : AppCompatActivity() {
         Toast.makeText(this, getType, Toast.LENGTH_SHORT).show()
         mAuth = FirebaseAuth.getInstance()
         databaseReference =
-            getType?.let(FirebaseDatabase.getInstance().reference.child("Users")::child)
+            getType?.let(FirebaseDatabase.getInstance("https://mobilemechan-default-rtdb.firebaseio.com/").reference.child("Users")::child)
         storageProfilePicsRef =
             FirebaseStorage.getInstance().reference.child("Profile Pictures")
         profileImageView = findViewById(R.id.profile_image)
@@ -139,7 +131,7 @@ class SettingsActivity : AppCompatActivity() {
                     val downloadUrl = p0.result
                     myUrl = downloadUrl.toString()
                     val userMap = HashMap<String, Any>()
-                    userMap["uid"] = mAuth?.getCurrentUser()!!.uid
+                    userMap["uid"] = mAuth?.currentUser!!.uid
                     userMap["name"] = nameEditText?.text.toString()
                     userMap["phone"] = phoneEditText?.text.toString()
                     userMap["image"] = myUrl
@@ -174,7 +166,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun validateAndSaveOnlyInformation() {
-        if (TextUtils.isEmpty(nameEditText?.getText().toString())) {
+        if (TextUtils.isEmpty(nameEditText?.text.toString())) {
             Toast.makeText(this, "Please provide your name.", Toast.LENGTH_SHORT).show()
         } else if (TextUtils.isEmpty(phoneEditText?.text.toString())) {
             Toast.makeText(this, "Please provide your phone number.", Toast.LENGTH_SHORT).show()
