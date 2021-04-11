@@ -14,7 +14,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/settings_customer_btn"
         android:layout_above="@+id/call_a_car_button"
+        tools:context=".CustomersMapActivity"
         />
+
 
 
     <RelativeLayout
