@@ -84,8 +84,8 @@ class CustomerLoginRegisterActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             currentUserId = mAuth!!.currentUser.uid
                             customersDatabaseRef =
-                                FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child("Customers").child(currentUserId!!)
+                                FirebaseDatabase.getInstance("https://mobilemechan-default-rtdb.firebaseio.com/").reference.child("Users")
+                                    .child("Clients").child(currentUserId!!)
                             customersDatabaseRef!!.setValue(true)
                             val intent = Intent(
                                 this@CustomerLoginRegisterActivity,
