@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class DriverLoginRegisterActivity : AppCompatActivity() {
     private var CreateDriverAccount: TextView? = null
@@ -87,8 +89,8 @@ class DriverLoginRegisterActivity : AppCompatActivity() {
                             currentUserId = mAuth!!.currentUser.uid
                             driversDatabaseRef =
                                 FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child("Drivers").child(currentUserId)
-                            driversDatabaseRef.setValue(true)
+                                    .child("Drivers").child(currentUserId!!)
+                            driversDatabaseRef!!.setValue(true)
                             val intent = Intent(
                                 this@DriverLoginRegisterActivity,
                                 DriverMapActivity::class.java
