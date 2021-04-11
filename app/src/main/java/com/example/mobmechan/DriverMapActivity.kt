@@ -183,7 +183,7 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
             val latLng = LatLng(location.latitude, location.longitude)
             mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap?.animateCamera(CameraUpdateFactory.zoomTo(12f))
-            val userID: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
+            val userID: String = FirebaseAuth.getInstance().currentUser.uid
             val DriversAvailabilityRef: DatabaseReference =
                 FirebaseDatabase.getInstance().reference.child("Drivers Available")
             val geoFireAvailability = GeoFire(DriversAvailabilityRef)
@@ -254,9 +254,9 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     private fun DisconnectDriver() {
-        val userID: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
+        val userID: String = FirebaseAuth.getInstance().getCurrentUser().uid
         val DriversAvailabiltyRef: DatabaseReference =
-            FirebaseDatabase.getInstance().getReference().child("Drivers Available")
+            FirebaseDatabase.getInstance().reference.child("Drivers Available")
         val geoFire = GeoFire(DriversAvailabiltyRef)
         geoFire.removeLocation(userID)
     }
@@ -270,7 +270,7 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
 
     private val assignedCustomerInformation: Unit
         private get() {
-            val reference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
+            val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
                 .child("Users").child("Customers").child(customerID)
             reference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
