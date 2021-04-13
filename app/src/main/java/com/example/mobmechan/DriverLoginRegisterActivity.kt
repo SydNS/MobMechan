@@ -90,7 +90,7 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
                 mAuth!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            currentUserId = mAuth!!.getCurrentUser().uid
+                            currentUserId = mAuth!!.currentUser.uid
                             driversDatabaseRef =
                                 FirebaseDatabase.getInstance().reference.child("Users")
                                     .child("Drivers").child(

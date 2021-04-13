@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -22,8 +23,8 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
     private var TitleCustomer: TextView? = null
     private var LoginCustomerButton: Button? = null
     private var RegisterCustomerButton: Button? = null
-    private var CustomerEmail: EditText? = null
-    private var CustomerPassword: EditText? = null
+    private var CustomerEmail: TextInputLayout? = null
+    private var CustomerPassword: TextInputLayout? = null
     private var customersDatabaseRef: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private var firebaseAuthListner: AuthStateListener? = null
@@ -46,8 +47,8 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
         TitleCustomer = findViewById<View>(R.id.heading) as TextView
         LoginCustomerButton = findViewById<View>(R.id.customer_login_btn) as Button
         RegisterCustomerButton = findViewById<View>(R.id.customer_register_btn) as Button
-        CustomerEmail = findViewById<View>(R.id.customer_email) as EditText
-        CustomerPassword = findViewById<View>(R.id.customer_password) as EditText
+        CustomerEmail = findViewById<View>(R.id.customer_email) as TextInputLayout
+        CustomerPassword = findViewById<View>(R.id.customer_password) as TextInputLayout
         loadingBar = ProgressDialog(this)
         RegisterCustomerButton!!.visibility = View.INVISIBLE
         RegisterCustomerButton!!.isEnabled = false
@@ -59,8 +60,8 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
             RegisterCustomerButton!!.isEnabled = true
         }
         RegisterCustomerButton!!.setOnClickListener {
-            val email = CustomerEmail!!.text.toString()
-            val password = CustomerPassword!!.text.toString()
+            val email: String = CustomerEmail!!.editText?.text.toString()
+            val password: String = CustomerPassword!!.editText?.text.toString()
             if (TextUtils.isEmpty(email)) {
                 Toast.makeText(
                     this@CustomerLoginRegisterActivity,
@@ -107,8 +108,8 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
         }
         LoginCustomerButton!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
-                val email = CustomerEmail!!.text.toString()
-                val password = CustomerPassword!!.text.toString()
+                val email: String = CustomerEmail!!.editText?.text.toString()
+                val password: String = CustomerPassword!!.editText?.text.toString()
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(
                         this@CustomerLoginRegisterActivity,
