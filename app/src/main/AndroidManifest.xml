@@ -30,14 +30,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".CustomerLoginRegisterActivity" />
-        <activity android:name=".DriverLoginRegisterActivity" />
-        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".CustomerLoginRegisterActivity"
+            android:theme="@style/Theme.MaterialComponents" />
+        <activity android:name=".DriverLoginRegisterActivity"
+            android:theme="@style/Theme.MaterialComponents" />
+        <activity android:name=".WelcomeActivity"
+            android:theme="@style/Theme.AppCompat" />
         <activity android:name=".UserMapUi" />
-        <activity android:name=".MechanicMapUi" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".MechanicMapUi"
+            android:theme="@style/Theme.AppCompat" />
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/Theme.AppCompat" />
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
