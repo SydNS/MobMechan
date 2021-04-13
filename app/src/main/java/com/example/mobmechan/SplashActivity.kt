@@ -1,21 +1,22 @@
 package com.example.mobmechan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity2 : AppCompatActivity() {
+class SplashActivity constructor() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
         val thread: Thread = object : Thread() {
-            override fun run() {
+            public override fun run() {
                 try {
                     sleep(1000)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
-                    val mainIntent = Intent(this@MainActivity2, WelcomeActivity::class.java)
+                    val mainIntent: Intent =
+                        Intent(this@SplashActivity, WelcomeActivity::class.java)
                     startActivity(mainIntent)
                 }
             }

@@ -9,13 +9,10 @@ import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.mobmechan.DriverMapActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.common.ConnectionResult
@@ -37,7 +34,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
+class DriverMapActivity  : FragmentActivity(), OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
     private var mMap: GoogleMap? = null
@@ -48,10 +45,10 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
     private var SettingsDriverButton: Button? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
-    private var currentLogOutUserStatus = false
+    private var currentLogOutUserStatus: Boolean = false
 
     //getting request customer's id
-    private var customerID = ""
+    private var customerID: String = ""
     private var driverID: String? = null
     private var AssignedCustomerRef: DatabaseReference? = null
     private var AssignedCustomerPickUpRef: DatabaseReference? = null
@@ -61,164 +58,166 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
     private var txtPhone: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //notice
         setContentView(R.layout.activity_driver_map)
         mAuth = FirebaseAuth.getInstance()
-        currentUser = mAuth!!.currentUser
-        driverID = mAuth!!.currentUser.uid
-        LogoutDriverBtn = findViewById<Button>(R.id.logout_driv_btn)
-        SettingsDriverButton = findViewById<Button>(R.id.settings_driver_btn)
+        currentUser = mAuth!!.getCurrentUser()
+        driverID = mAuth!!.getCurrentUser().getUid()
+        LogoutDriverBtn = findViewById<View>(R.id.logout_driv_btn) as Button?
+        SettingsDriverButton = findViewById<View>(R.id.settings_driver_btn) as Button?
         txtName = findViewById(R.id.name_customer)
         txtPhone = findViewById(R.id.phone_customer)
         profilePic = findViewById(R.id.profile_image_customer)
         relativeLayout = findViewById(R.id.rel2)
-        val mapFragment: SupportMapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this@DriverMapActivity)
-        SettingsDriverButton!!.setOnClickListener {
-            val intent = Intent(this@DriverMapActivity, SettingsActivity::class.java)
-            intent.putExtra("type", "Drivers")
-            startActivity(intent)
-        }
-        LogoutDriverBtn!!.setOnClickListener {
-            currentLogOutUserStatus = true
-            DisconnectDriver()
-            mAuth!!.signOut()
-            LogOutUser()
-        }
+        val mapFragment: SupportMapFragment? = getSupportFragmentManager()
+            .findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this@DriverMapActivity)
+        SettingsDriverButton!!.setOnClickListener(object : View.OnClickListener {
+            public override fun onClick(view: View) {
+                val intent: Intent = Intent(this@DriverMapActivity, SettingsActivity::class.java)
+                intent.putExtra("type", "Drivers")
+                startActivity(intent)
+            }
+        })
+        LogoutDriverBtn!!.setOnClickListener(object : View.OnClickListener {
+            public override fun onClick(v: View) {
+                currentLogOutUserStatus = true
+                DisconnectDriver()
+                mAuth!!.signOut()
+                LogOutUser()
+            }
+        })
         assignedCustomersRequest
     }
 
     //getting assigned customer location
     private val assignedCustomersRequest: Unit
         private get() {
-            AssignedCustomerRef = driverID?.let {
-                FirebaseDatabase.getInstance().reference.child("Users")
-                    .child("Drivers").child(it).child("CustomerRideID")
-            }
-            AssignedCustomerRef?.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+            AssignedCustomerRef = FirebaseDatabase.getInstance().getReference().child("Users")
+                .child("Drivers").child((driverID)!!).child("CustomerRideID")
+            AssignedCustomerRef!!.addValueEventListener(object : ValueEventListener {
+                public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        customerID = dataSnapshot.value.toString()
+                        customerID = dataSnapshot.getValue().toString()
                         //getting assigned customer location
                         GetAssignedCustomerPickupLocation()
-                        relativeLayout?.visibility = View.VISIBLE
+                        relativeLayout!!.setVisibility(View.VISIBLE)
                         assignedCustomerInformation
                     } else {
                         customerID = ""
-                        PickUpMarker?.remove()
+                        if (PickUpMarker != null) {
+                            PickUpMarker!!.remove()
+                        }
                         if (AssignedCustomerPickUpRefListner != null) {
-                            AssignedCustomerPickUpRef?.removeEventListener(
+                            AssignedCustomerPickUpRef!!.removeEventListener(
                                 AssignedCustomerPickUpRefListner!!
                             )
                         }
-                        relativeLayout?.visibility = View.GONE
+                        relativeLayout!!.setVisibility(View.GONE)
                     }
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {}
+                public override fun onCancelled(databaseError: DatabaseError) {}
             })
         }
 
     private fun GetAssignedCustomerPickupLocation() {
         AssignedCustomerPickUpRef =
-            FirebaseDatabase.getInstance().reference.child("Customer Requests")
+            FirebaseDatabase.getInstance().getReference().child("Customer Requests")
                 .child(customerID).child("l")
         AssignedCustomerPickUpRefListner =
             AssignedCustomerPickUpRef!!.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        val customerLocationMap = dataSnapshot.value as List<Any?>
-                        var LocationLat = 0.0
-                        var LocationLng = 0.0
-                        if (customerLocationMap[0] != null) {
-                            LocationLat = customerLocationMap[0].toString().toDouble()
+                        val customerLocationMap: List<Any?>? =
+                            dataSnapshot.getValue() as List<Any?>?
+                        var LocationLat: Double = 0.0
+                        var LocationLng: Double = 0.0
+                        if (customerLocationMap!!.get(0) != null) {
+                            LocationLat = customerLocationMap.get(0).toString().toDouble()
                         }
-                        if (customerLocationMap[1] != null) {
-                            LocationLng = customerLocationMap[1].toString().toDouble()
+                        if (customerLocationMap.get(1) != null) {
+                            LocationLng = customerLocationMap.get(1).toString().toDouble()
                         }
-                        val DriverLatLng = LatLng(LocationLat, LocationLng)
-                        PickUpMarker = mMap?.addMarker(
+                        val DriverLatLng: LatLng = LatLng(LocationLat, LocationLng)
+                        PickUpMarker = mMap!!.addMarker(
                             MarkerOptions().position(DriverLatLng).title("Customer PickUp Location")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))
                         )
                     }
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {}
+                public override fun onCancelled(databaseError: DatabaseError) {}
             })
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
+    public override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         // now let set user location enable
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) !== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) !== PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
         buildGoogleApiClient()
-        mMap!!.isMyLocationEnabled = true
+        mMap!!.setMyLocationEnabled(true)
     }
 
-    override fun onCreate(
-        @Nullable savedInstanceState: Bundle?,
-        @Nullable persistentState: PersistableBundle?
-    ) {
+    public override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
     }
 
-    override fun onLocationChanged(location: Location) {
-        if (applicationContext != null) {
+    public override fun onLocationChanged(location: Location) {
+        if (getApplicationContext() != null) {
             //getting the updated location
             LastLocation = location
-            val latLng = LatLng(location.latitude, location.longitude)
-            mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            mMap?.animateCamera(CameraUpdateFactory.zoomTo(12f))
-            val userID: String = FirebaseAuth.getInstance().currentUser.uid
+            val latLng: LatLng = LatLng(location.getLatitude(), location.getLongitude())
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(12f))
+            val userID: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
             val DriversAvailabilityRef: DatabaseReference =
-                FirebaseDatabase.getInstance().reference.child("Drivers Available")
-            val geoFireAvailability = GeoFire(DriversAvailabilityRef)
+                FirebaseDatabase.getInstance().getReference().child("Drivers Available")
+            val geoFireAvailability: GeoFire = GeoFire(DriversAvailabilityRef)
             val DriversWorkingRef: DatabaseReference =
-                FirebaseDatabase.getInstance().reference.child("Drivers Working")
-            val geoFireWorking = GeoFire(DriversWorkingRef)
+                FirebaseDatabase.getInstance().getReference().child("Drivers Working")
+            val geoFireWorking: GeoFire = GeoFire(DriversWorkingRef)
             when (customerID) {
                 "" -> {
                     geoFireWorking.removeLocation(userID)
                     geoFireAvailability.setLocation(
                         userID,
-                        GeoLocation(location.latitude, location.longitude)
+                        GeoLocation(location.getLatitude(), location.getLongitude())
                     )
                 }
                 else -> {
                     geoFireAvailability.removeLocation(userID)
                     geoFireWorking.setLocation(
                         userID,
-                        GeoLocation(location.latitude, location.longitude)
+                        GeoLocation(location.getLatitude(), location.getLongitude())
                     )
                 }
             }
         }
     }
 
-    override fun onConnected(@Nullable bundle: Bundle?) {
+    public override fun onConnected(bundle: Bundle?) {
         locationRequest = LocationRequest()
-        locationRequest!!.interval = 1000
-        locationRequest!!.fastestInterval = 1000
-        locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest!!.setInterval(1000)
+        locationRequest!!.setFastestInterval(1000)
+        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            !== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) !== PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             //
             return
@@ -232,8 +231,8 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
         )
     }
 
-    override fun onConnectionSuspended(i: Int) {}
-    override fun onConnectionFailed(@NonNull connectionResult: ConnectionResult) {}
+    public override fun onConnectionSuspended(i: Int) {}
+    public override fun onConnectionFailed(connectionResult: ConnectionResult) {}
 
     //create this method -- for useing apis
     @Synchronized
@@ -246,7 +245,7 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
         googleApiClient?.connect()
     }
 
-    protected override fun onStop() {
+    override fun onStop() {
         super.onStop()
         if (!currentLogOutUserStatus) {
             DisconnectDriver()
@@ -254,15 +253,15 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     private fun DisconnectDriver() {
-        val userID: String = FirebaseAuth.getInstance().getCurrentUser().uid
+        val userID: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
         val DriversAvailabiltyRef: DatabaseReference =
-            FirebaseDatabase.getInstance().reference.child("Drivers Available")
-        val geoFire = GeoFire(DriversAvailabiltyRef)
+            FirebaseDatabase.getInstance().getReference().child("Drivers Available")
+        val geoFire: GeoFire = GeoFire(DriversAvailabiltyRef)
         geoFire.removeLocation(userID)
     }
 
     fun LogOutUser() {
-        val startPageIntent = Intent(this@DriverMapActivity, WelcomeActivity::class.java)
+        val startPageIntent: Intent = Intent(this@DriverMapActivity, WelcomeActivity::class.java)
         startPageIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(startPageIntent)
         finish()
@@ -270,23 +269,23 @@ class DriverMapActivity : FragmentActivity(), OnMapReadyCallback,
 
     private val assignedCustomerInformation: Unit
         private get() {
-            val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
+            val reference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child("Customers").child(customerID)
             reference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                        val name: String = dataSnapshot.child("name").value.toString()
-                        val phone: String = dataSnapshot.child("phone").value.toString()
-                        txtName?.text = name
-                        txtPhone?.text = phone
+                public override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                        val name: String = dataSnapshot.child("name").getValue().toString()
+                        val phone: String = dataSnapshot.child("phone").getValue().toString()
+                        txtName!!.setText(name)
+                        txtPhone!!.setText(phone)
                         if (dataSnapshot.hasChild("image")) {
-                            val image: String = dataSnapshot.child("image").value.toString()
+                            val image: String = dataSnapshot.child("image").getValue().toString()
                             Picasso.get().load(image).into(profilePic)
                         }
                     }
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {}
+                public override fun onCancelled(databaseError: DatabaseError) {}
             })
         }
 }
