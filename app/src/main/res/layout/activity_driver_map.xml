@@ -63,10 +63,6 @@
         android:layout_toRightOf="@+id/settings_driver_btn"
         android:gravity="center_horizontal" />
 
-
-
-
-
     <RelativeLayout
         android:id="@+id/rel2"
         android:background="@color/colorPrimaryDark"
@@ -74,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image_customer"

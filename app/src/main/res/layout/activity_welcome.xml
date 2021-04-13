@@ -18,7 +18,8 @@
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/driver_welcome_btn" />
+        android:layout_alignStart="@+id/driver_welcome_btn"
+        android:layout_alignLeft="@+id/driver_welcome_btn" />
 
     <Button
         android:id="@+id/driver_welcome_btn"
