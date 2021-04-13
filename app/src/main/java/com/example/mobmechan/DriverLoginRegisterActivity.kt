@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mobmechan.DriverLoginRegisterActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -100,7 +99,7 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
                                     driversDatabaseRef!!.setValue(true)
                                     val intent: Intent = Intent(
                                         this@DriverLoginRegisterActivity,
-                                        DriverMapActivity::class.java
+                                        MechanicMapUi::class.java
                                     )
                                     startActivity(intent)
                                     loadingBar!!.dismiss()
@@ -149,7 +148,7 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
                                     ).show()
                                     val intent: Intent = Intent(
                                         this@DriverLoginRegisterActivity,
-                                        DriverMapActivity::class.java
+                                        MechanicMapUi::class.java
                                     )
                                     startActivity(intent)
                                 } else {

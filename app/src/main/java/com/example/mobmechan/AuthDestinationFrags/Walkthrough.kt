@@ -13,11 +13,12 @@ import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.transition.Visibility
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mobimech.R
 import com.example.mobimech.adapters.WalkthroughRecyclerviewdapter
-import com.example.mobimech.databinding.FragmentWalkthroughBinding
 import com.example.mobimech.mobimechsharedpreferences.IsItTheAppsFirstTimeOpenning
 import com.example.mobimech.models.DisplayItem
+
+import com.example.mobmechan.R
+import com.example.mobmechan.databinding.FragmentWalkthroughBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

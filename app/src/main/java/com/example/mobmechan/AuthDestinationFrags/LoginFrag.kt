@@ -11,9 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import com.example.mobimech.R
-import com.example.mobimech.databinding.FragmentLoginBinding
+
+import com.example.mobmechan.R
 import com.example.mobimech.mobimechsharedpreferences.IsItTheAppsFirstTimeOpenning
+import com.example.mobmechan.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

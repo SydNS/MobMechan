@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mobmechan.CustomerLoginRegisterActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -38,7 +37,7 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
             currentUser = FirebaseAuth.getInstance().currentUser
             if (currentUser != null) {
                 val intent =
-                    Intent(this@CustomerLoginRegisterActivity, CustomersMapActivity::class.java)
+                    Intent(this@CustomerLoginRegisterActivity, UserMapUi::class.java)
                 startActivity(intent)
             }
         }
@@ -91,7 +90,7 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
                                 customersDatabaseRef!!.setValue(true)
                                 val intent = Intent(
                                     this@CustomerLoginRegisterActivity,
-                                    CustomersMapActivity::class.java
+                                    UserMapUi::class.java
                                 )
                                 startActivity(intent)
                                 loadingBar!!.dismiss()
@@ -139,7 +138,7 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
                                     ).show()
                                     val intent = Intent(
                                         this@CustomerLoginRegisterActivity,
-                                        CustomersMapActivity::class.java
+                                        UserMapUi::class.java
                                     )
                                     startActivity(intent)
                                     loadingBar!!.dismiss()

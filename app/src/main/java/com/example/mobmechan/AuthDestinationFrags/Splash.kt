@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import com.example.mobimech.R
-import com.example.mobimech.databinding.FragmentSplashBinding
+import com.example.mobmechan.R
+import com.example.mobmechan.databinding.FragmentSplashBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

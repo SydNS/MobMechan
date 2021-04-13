@@ -3,7 +3,6 @@ package com.example.mobimech.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobimech.databinding.OrderlistLayoutBinding
 import com.example.mobimech.models.OrderListItem
 import com.example.mobmechan.databinding.OrderlistLayoutBinding
 

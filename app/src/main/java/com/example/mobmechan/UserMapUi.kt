@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
-import com.example.mobmechan.CustomersMapActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQuery
@@ -34,7 +33,7 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
-class CustomersMapActivity constructor() : FragmentActivity(), OnMapReadyCallback,
+class UserMapUi constructor() : FragmentActivity(), OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
     private var mMap: GoogleMap? = null
@@ -92,7 +91,7 @@ class CustomersMapActivity constructor() : FragmentActivity(), OnMapReadyCallbac
         mapFragment!!.getMapAsync(this)
         SettingsButton!!.setOnClickListener(object : View.OnClickListener {
             public override fun onClick(view: View) {
-                val intent: Intent = Intent(this@CustomersMapActivity, SettingsActivity::class.java)
+                val intent: Intent = Intent(this@UserMapUi, SettingsActivity::class.java)
                 intent.putExtra("type", "Customers")
                 startActivity(intent)
             }
@@ -314,7 +313,7 @@ class CustomersMapActivity constructor() : FragmentActivity(), OnMapReadyCallbac
     }
 
     fun LogOutUser() {
-        val startPageIntent: Intent = Intent(this@CustomersMapActivity, WelcomeActivity::class.java)
+        val startPageIntent: Intent = Intent(this@UserMapUi, WelcomeActivity::class.java)
         startPageIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(startPageIntent)
         finish()

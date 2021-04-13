@@ -12,7 +12,6 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
-import com.example.mobmechan.DriverMapActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.common.ConnectionResult
@@ -34,7 +33,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class DriverMapActivity  : FragmentActivity(), OnMapReadyCallback,
+class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
     private var mMap: GoogleMap? = null
@@ -73,10 +72,10 @@ class DriverMapActivity  : FragmentActivity(), OnMapReadyCallback,
         relativeLayout = findViewById(R.id.rel2)
         val mapFragment: SupportMapFragment? = getSupportFragmentManager()
             .findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this@DriverMapActivity)
+        mapFragment!!.getMapAsync(this@MechanicMapUi)
         SettingsDriverButton!!.setOnClickListener(object : View.OnClickListener {
             public override fun onClick(view: View) {
-                val intent: Intent = Intent(this@DriverMapActivity, SettingsActivity::class.java)
+                val intent: Intent = Intent(this@MechanicMapUi, SettingsActivity::class.java)
                 intent.putExtra("type", "Drivers")
                 startActivity(intent)
             }
@@ -261,7 +260,7 @@ class DriverMapActivity  : FragmentActivity(), OnMapReadyCallback,
     }
 
     fun LogOutUser() {
-        val startPageIntent: Intent = Intent(this@DriverMapActivity, WelcomeActivity::class.java)
+        val startPageIntent: Intent = Intent(this@MechanicMapUi, WelcomeActivity::class.java)
         startPageIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(startPageIntent)
         finish()

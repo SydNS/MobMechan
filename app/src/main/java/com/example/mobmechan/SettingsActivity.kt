@@ -8,8 +8,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mobmechan.SettingsActivity
-import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -60,9 +58,9 @@ class SettingsActivity constructor() : AppCompatActivity() {
         profileChangeBtn = findViewById(R.id.change_picture_btn)
         closeButton?.setOnClickListener {
             if ((getType == "Drivers")) {
-                startActivity(Intent(this@SettingsActivity, DriverMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, MechanicMapUi::class.java))
             } else {
-                startActivity(Intent(this@SettingsActivity, CustomersMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, UserMapUi::class.java))
             }
         }
         saveButton?.setOnClickListener(object : View.OnClickListener {
@@ -91,9 +89,9 @@ class SettingsActivity constructor() : AppCompatActivity() {
             profileImageView!!.setImageURI(imageUri)
         } else {
             if ((getType == "Drivers")) {
-                startActivity(Intent(this@SettingsActivity, DriverMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, MechanicMapUi::class.java))
             } else {
-                startActivity(Intent(this@SettingsActivity, CustomersMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, UserMapUi::class.java))
             }
             Toast.makeText(this, "Error, Try Again.", Toast.LENGTH_SHORT).show()
         }
@@ -149,14 +147,14 @@ class SettingsActivity constructor() : AppCompatActivity() {
                             startActivity(
                                 Intent(
                                     this@SettingsActivity,
-                                    DriverMapActivity::class.java
+                                    MechanicMapUi::class.java
                                 )
                             )
                         } else {
                             startActivity(
                                 Intent(
                                     this@SettingsActivity,
-                                    CustomersMapActivity::class.java
+                                    UserMapUi::class.java
                                 )
                             )
                         }
@@ -188,9 +186,9 @@ class SettingsActivity constructor() : AppCompatActivity() {
             }
             databaseReference!!.child(mAuth!!.getCurrentUser().getUid()).updateChildren(userMap)
             if ((getType == "Drivers")) {
-                startActivity(Intent(this@SettingsActivity, DriverMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, MechanicMapUi::class.java))
             } else {
-                startActivity(Intent(this@SettingsActivity, CustomersMapActivity::class.java))
+                startActivity(Intent(this@SettingsActivity, UserMapUi::class.java))
             }
         }
     }
