@@ -98,57 +98,53 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                 startActivity(intent)
             }
         })
-        Logout!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(v: View) {
-                mAuth!!.signOut()
-                LogOutUser()
-            }
-        })
-        CallCabCarButton!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(v: View) {
-                if (requestType) {
-                    requestType = false
-                    geoQuery!!.removeAllListeners()
-                    DriverLocationRef!!.removeEventListener((DriverLocationRefListner)!!)
-                    if (driverFound != null) {
-                        DriversRef = FirebaseDatabase.getInstance().getReference()
-                            .child("Users").child("Drivers").child((driverFoundID)!!)
-                            .child("CustomerRideID")
-                        DriversRef!!.removeValue()
-                        driverFoundID = null
-                    }
-                    driverFound = false
-                    radius = 1
-                    val customerId: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
-                    val geoFire: GeoFire = GeoFire(CustomerDatabaseRef)
-                    geoFire.removeLocation(customerId)
-                    if (PickUpMarker != null) {
-                        PickUpMarker!!.remove()
-                    }
-                    if (DriverMarker != null) {
-                        DriverMarker!!.remove()
-                    }
-                    CallCabCarButton!!.setText("Call a Cab")
-                    relativeLayout?.setVisibility(View.GONE)
-                } else {
-                    requestType = true
-                    val customerId: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
-                    val geoFire: GeoFire = GeoFire(CustomerDatabaseRef)
-                    geoFire.setLocation(
-                        customerId,
-                        GeoLocation(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
-                    )
-                    CustomerPickUpLocation =
-                        LatLng(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
-                    PickUpMarker = mMap!!.addMarker(
-                        MarkerOptions().position(CustomerPickUpLocation!!).title("My Location")
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))
-                    )
-                    CallCabCarButton!!.setText("Getting your Driver...")
-                    closetDriverCab
+        Logout!!.setOnClickListener {
+            mAuth!!.signOut()
+            LogOutUser()
+        }
+        CallCabCarButton!!.setOnClickListener {
+            if (requestType) {
+                requestType = false
+                geoQuery!!.removeAllListeners()
+                DriverLocationRef!!.removeEventListener((DriverLocationRefListner)!!)
+                if (driverFound != null) {
+                    DriversRef = FirebaseDatabase.getInstance().reference
+                        .child("Users").child("Drivers").child((driverFoundID)!!)
+                        .child("CustomerRideID")
+                    DriversRef!!.removeValue()
+                    driverFoundID = null
                 }
+                driverFound = false
+                radius = 1
+                val customerId: String = FirebaseAuth.getInstance().getCurrentUser().uid
+                val geoFire: GeoFire = GeoFire(CustomerDatabaseRef)
+                geoFire.removeLocation(customerId)
+                if (PickUpMarker != null) {
+                    PickUpMarker!!.remove()
+                }
+                if (DriverMarker != null) {
+                    DriverMarker!!.remove()
+                }
+                CallCabCarButton!!.setText("Call a Cab")
+                relativeLayout?.setVisibility(View.GONE)
+            } else {
+                requestType = true
+                val customerId: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
+                val geoFire: GeoFire = GeoFire(CustomerDatabaseRef)
+                geoFire.setLocation(
+                    customerId,
+                    GeoLocation(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
+                )
+                CustomerPickUpLocation =
+                    LatLng(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
+                PickUpMarker = mMap!!.addMarker(
+                    MarkerOptions().position(CustomerPickUpLocation!!).title("My Location")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))
+                )
+                CallCabCarButton!!.setText("Getting your Driver...")
+                closetDriverCab
             }
-        })
+        }
     }//we tell driver which customer he is going to have
 
     //Show driver location on customerMapActivity
