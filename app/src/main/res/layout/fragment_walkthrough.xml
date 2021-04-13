@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/walkthrubtnbackground"
+    tools:context=".AuthDestinationFrags.Walkthrough">
+
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/walkthroughviewpager"
+        android:layout_width="400dp"
+        android:layout_height="550dp"
+        android:padding="10dp"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="5dp"
+        android:clipToPadding="false"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/walkthrubtnbackground"
+            android:elevation="10dp"
+            android:text="Prev"
+            android:textColor="@color/whiteTextColor" />
+
+        <Button
+            android:elevation="10dp"
+            android:text="Next"
+            android:textColor="@color/whiteTextColor"
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/walkthrubtnbackgroundnext"/>
+
+        <Button
+            android:elevation="10dp"
+            android:text="Sign In"
+            android:textColor="@color/whiteTextColor"
+            android:id="@+id/Signinbtnwalkthrough"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>
