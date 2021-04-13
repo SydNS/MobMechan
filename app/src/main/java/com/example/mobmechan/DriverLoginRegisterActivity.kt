@@ -9,6 +9,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -21,8 +23,8 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
     private var TitleDriver: TextView? = null
     private var LoginDriverButton: Button? = null
     private var RegisterDriverButton: Button? = null
-    private var DriverEmail: EditText? = null
-    private var DriverPassword: EditText? = null
+    private var DriverEmail: TextInputLayout? = null
+    private var DriverPassword: TextInputLayout? = null
     private var driversDatabaseRef: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private val firebaseAuthListner: AuthStateListener? = null
@@ -48,76 +50,74 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
 //            }
 //        };
         CreateDriverAccount = findViewById<View>(R.id.create_driver_account) as TextView?
-        TitleDriver = findViewById<View>(R.id.titlr_driver) as TextView?
+        TitleDriver = findViewById<View>(R.id.heading) as TextView?
         LoginDriverButton = findViewById<View>(R.id.login_driver_btn) as Button?
         RegisterDriverButton = findViewById<View>(R.id.register_driver_btn) as Button?
-        DriverEmail = findViewById<View>(R.id.driver_email) as EditText?
-        DriverPassword = findViewById<View>(R.id.driver_password) as EditText?
+
+        DriverEmail = findViewById<View>(R.id.mechanic_email) as TextInputLayout?
+        DriverPassword = findViewById<View>(R.id.mechanic_password) as TextInputLayout?
+
         loadingBar = ProgressDialog(this)
-        RegisterDriverButton!!.setVisibility(View.INVISIBLE)
-        RegisterDriverButton!!.setEnabled(false)
-        CreateDriverAccount!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(view: View) {
-                CreateDriverAccount!!.setVisibility(View.INVISIBLE)
-                LoginDriverButton!!.setVisibility(View.INVISIBLE)
-                TitleDriver!!.setText("Driver Registration")
-                RegisterDriverButton!!.setVisibility(View.VISIBLE)
-                RegisterDriverButton!!.setEnabled(true)
+        RegisterDriverButton!!.visibility = View.INVISIBLE
+        RegisterDriverButton!!.isEnabled = false
+        CreateDriverAccount!!.setOnClickListener {
+            CreateDriverAccount!!.visibility = View.INVISIBLE
+            LoginDriverButton!!.visibility = View.INVISIBLE
+            TitleDriver!!.text = "Mechanic Registration"
+            RegisterDriverButton!!.visibility = View.VISIBLE
+            RegisterDriverButton!!.isEnabled = true
+        }
+        RegisterDriverButton!!.setOnClickListener {
+            val email: String = DriverEmail!!.editText?.text.toString()
+            val password: String = DriverPassword!!.editText?.text.toString()
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(
+                    this@DriverLoginRegisterActivity,
+                    "Please write your Email...",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
-        RegisterDriverButton!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(view: View) {
-                val email: String = DriverEmail!!.getText().toString()
-                val password: String = DriverPassword!!.getText().toString()
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(
-                        this@DriverLoginRegisterActivity,
-                        "Please write your Email...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(
-                        this@DriverLoginRegisterActivity,
-                        "Please write your Password...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    loadingBar!!.setTitle("Please wait :")
-                    loadingBar!!.setMessage("While system is performing processing on your data...")
-                    loadingBar!!.show()
-                    mAuth!!.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful()) {
-                                currentUserId = mAuth!!.getCurrentUser().getUid()
-                                driversDatabaseRef =
-                                    FirebaseDatabase.getInstance().getReference().child("Users")
-                                        .child("Drivers").child(
-                                            currentUserId!!
-                                        )
-                                driversDatabaseRef!!.setValue(true)
-                                val intent: Intent = Intent(
-                                    this@DriverLoginRegisterActivity,
-                                    MechanicMapUi::class.java
-                                )
-                                startActivity(intent)
-                                loadingBar!!.dismiss()
-                            } else {
-                                Toast.makeText(
-                                    this@DriverLoginRegisterActivity,
-                                    "Please Try Again. Error Occurred, while registering... ",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                loadingBar!!.dismiss()
-                            }
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(
+                    this@DriverLoginRegisterActivity,
+                    "Please write your Password...",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                loadingBar!!.setTitle("Please wait :")
+                loadingBar!!.setMessage("While system is performing processing on your data...")
+                loadingBar!!.show()
+                mAuth!!.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            currentUserId = mAuth!!.getCurrentUser().uid
+                            driversDatabaseRef =
+                                FirebaseDatabase.getInstance().reference.child("Users")
+                                    .child("Drivers").child(
+                                        currentUserId!!
+                                    )
+                            driversDatabaseRef!!.setValue(true)
+                            val intent: Intent = Intent(
+                                this@DriverLoginRegisterActivity,
+                                MechanicMapUi::class.java
+                            )
+                            startActivity(intent)
+                            loadingBar!!.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@DriverLoginRegisterActivity,
+                                "Please Try Again. Error Occurred, while registering... ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            loadingBar!!.dismiss()
                         }
-                }
+                    }
             }
-        })
+        }
         LoginDriverButton!!.setOnClickListener(object : View.OnClickListener {
             public override fun onClick(view: View) {
-                val email: String = DriverEmail!!.getText().toString()
-                val password: String = DriverPassword!!.getText().toString()
+                val email: String = DriverEmail!!.editText?.text.toString()
+                val password: String = DriverPassword!!.editText?.text.toString()
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(
                         this@DriverLoginRegisterActivity,
