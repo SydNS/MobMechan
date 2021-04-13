@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.mobmechan
 import android.app.ProgressDialog
 import android.content.Intent
@@ -41,7 +43,7 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
             }
         }
         CreateCustomerAccount = findViewById<View>(R.id.customer_register_link) as TextView
-        TitleCustomer = findViewById<View>(R.id.customer_status) as TextView
+        TitleCustomer = findViewById<View>(R.id.heading) as TextView
         LoginCustomerButton = findViewById<View>(R.id.customer_login_btn) as Button
         RegisterCustomerButton = findViewById<View>(R.id.customer_register_btn) as Button
         CustomerEmail = findViewById<View>(R.id.customer_email) as EditText
@@ -56,55 +58,53 @@ class CustomerLoginRegisterActivity() : AppCompatActivity() {
             RegisterCustomerButton!!.visibility = View.VISIBLE
             RegisterCustomerButton!!.isEnabled = true
         }
-        RegisterCustomerButton!!.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                val email = CustomerEmail!!.text.toString()
-                val password = CustomerPassword!!.text.toString()
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(
-                        this@CustomerLoginRegisterActivity,
-                        "Please write your Email...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(
-                        this@CustomerLoginRegisterActivity,
-                        "Please write your Password...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    loadingBar!!.setTitle("Please wait :")
-                    loadingBar!!.setMessage("While system is performing processing on your data...")
-                    loadingBar!!.show()
-                    mAuth!!.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
-                        OnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                currentUserId = mAuth!!.currentUser.uid
-                                customersDatabaseRef =
-                                    FirebaseDatabase.getInstance().reference.child("Users")
-                                        .child("Customers").child(
-                                            currentUserId!!
-                                        )
-                                customersDatabaseRef!!.setValue(true)
-                                val intent = Intent(
-                                    this@CustomerLoginRegisterActivity,
-                                    UserMapUi::class.java
-                                )
-                                startActivity(intent)
-                                loadingBar!!.dismiss()
-                            } else {
-                                Toast.makeText(
-                                    this@CustomerLoginRegisterActivity,
-                                    "Please Try Again. Error Occurred, while registering... ",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                loadingBar!!.dismiss()
-                            }
-                        })
-                }
+        RegisterCustomerButton!!.setOnClickListener {
+            val email = CustomerEmail!!.text.toString()
+            val password = CustomerPassword!!.text.toString()
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(
+                    this@CustomerLoginRegisterActivity,
+                    "Please write your Email...",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(
+                    this@CustomerLoginRegisterActivity,
+                    "Please write your Password...",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                loadingBar!!.setTitle("Please wait :")
+                loadingBar!!.setMessage("While system is performing processing on your data...")
+                loadingBar!!.show()
+                mAuth!!.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
+                    OnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            currentUserId = mAuth!!.currentUser.uid
+                            customersDatabaseRef =
+                                FirebaseDatabase.getInstance().reference.child("Users")
+                                    .child("Customers").child(
+                                        currentUserId!!
+                                    )
+                            customersDatabaseRef!!.setValue(true)
+                            val intent = Intent(
+                                this@CustomerLoginRegisterActivity,
+                                UserMapUi::class.java
+                            )
+                            startActivity(intent)
+                            loadingBar!!.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@CustomerLoginRegisterActivity,
+                                "Please Try Again. Error Occurred, while registering... ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            loadingBar!!.dismiss()
+                        }
+                    })
+            }
+        }
         LoginCustomerButton!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 val email = CustomerEmail!!.text.toString()

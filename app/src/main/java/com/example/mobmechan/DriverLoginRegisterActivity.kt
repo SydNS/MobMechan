@@ -87,32 +87,30 @@ class DriverLoginRegisterActivity constructor() : AppCompatActivity() {
                     loadingBar!!.setMessage("While system is performing processing on your data...")
                     loadingBar!!.show()
                     mAuth!!.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(object : OnCompleteListener<AuthResult?> {
-                            public override fun onComplete(task: Task<AuthResult?>) {
-                                if (task.isSuccessful()) {
-                                    currentUserId = mAuth!!.getCurrentUser().getUid()
-                                    driversDatabaseRef =
-                                        FirebaseDatabase.getInstance().getReference().child("Users")
-                                            .child("Drivers").child(
-                                                currentUserId!!
-                                            )
-                                    driversDatabaseRef!!.setValue(true)
-                                    val intent: Intent = Intent(
-                                        this@DriverLoginRegisterActivity,
-                                        MechanicMapUi::class.java
-                                    )
-                                    startActivity(intent)
-                                    loadingBar!!.dismiss()
-                                } else {
-                                    Toast.makeText(
-                                        this@DriverLoginRegisterActivity,
-                                        "Please Try Again. Error Occurred, while registering... ",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    loadingBar!!.dismiss()
-                                }
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful()) {
+                                currentUserId = mAuth!!.getCurrentUser().getUid()
+                                driversDatabaseRef =
+                                    FirebaseDatabase.getInstance().getReference().child("Users")
+                                        .child("Drivers").child(
+                                            currentUserId!!
+                                        )
+                                driversDatabaseRef!!.setValue(true)
+                                val intent: Intent = Intent(
+                                    this@DriverLoginRegisterActivity,
+                                    MechanicMapUi::class.java
+                                )
+                                startActivity(intent)
+                                loadingBar!!.dismiss()
+                            } else {
+                                Toast.makeText(
+                                    this@DriverLoginRegisterActivity,
+                                    "Please Try Again. Error Occurred, while registering... ",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                loadingBar!!.dismiss()
                             }
-                        })
+                        }
                 }
             }
         })
