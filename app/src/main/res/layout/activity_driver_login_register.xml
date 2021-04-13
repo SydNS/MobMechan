@@ -19,20 +19,20 @@
 
 
     <TextView
-        android:layout_below="@+id/logoimage"
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_below="@+id/logoimage"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="38dp"
+        android:gravity="center_horizontal"
         android:text="Mechanic Login"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_alignParentLeft="true"
-        android:gravity="center_horizontal" />
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/mechanic_email"
@@ -47,8 +47,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailSubject"
-            android:hint="@string/enter_your_email_phone_number" />
+            android:hint="@string/enter_your_email_phone_number"
+            android:inputType="textEmailSubject" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -65,38 +65,37 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/enter_your_password" />
+            android:hint="@string/enter_your_password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_driver_btn"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:background="@android:color/holo_orange_light"
-        android:backgroundTint="@color/colorAccent"
+        android:layout_below="@+id/mechanic_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@color/white"
         android:text="Login"
         android:textAllCaps="false"
-        android:textColor="?attr/actionMenuTextColor"
-        android:textSize="24sp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/mechanic_password"
-        android:layout_centerHorizontal="true" />
+        android:textColor="@color/black"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/create_driver_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/login_driver_btn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
         android:text="Don't have an account?"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:layout_alignParentLeft="true"
-        android:gravity="center_horizontal" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/register_driver_btn"
@@ -105,7 +104,7 @@
         android:layout_below="@+id/create_driver_account"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@color/light_blue_900"
         android:text="Register"
         android:textColor="@android:color/background_light"
         android:textSize="20sp" />
