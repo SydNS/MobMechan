@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
 
-class WelcomeActivity constructor() : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity() {
     private var DriverWelcomeButton: Button? = null
     private var CustomerWelcomeButton: Button? = null
     private val mAuth: FirebaseAuth? = null
