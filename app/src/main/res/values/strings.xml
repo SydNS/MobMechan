@@ -1,4 +1,42 @@
 <resources>
-    <string name="app_name">MobMechan</string>
-    <string name="title_activity_customer_maps">Map</string>
+    <string name="app_name">MobiMech</string>
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="username">Full Name</string>
+    <string name="register_here">Register here</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="enter_your_email_phone_number">Enter your email/phone number</string>
+    <string name="login">Login</string>
+    <string name="have_no_account_register_here">Have no account , Register here</string>
+    <string name="this_is_the_background_image">this is the background image</string>
+    <string name="this_is_the_applogo">this is the applogo</string>
+    <string name="have_an_account_login_here">Have an account , Login here</string>
+    <string name="forgotpassword">Forgot password</string>
+    <string name="resetpass">Reset Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="slogan">Mobile Mechanic, at your service</string>
+    <string name="this_a_walkhthru_image">this a walkhthru image</string>
+    <string name="mechanic">Mechanic</string>
+    <string name="mobile_mechanic">Mobile Mechanic</string>
+    <string name="descn1">\"We bring you the garage \"</string>
+    <string name="descn2">"we bring you the best mechanics we bring you the best mechanics we bring you the best mechanics "</string>
+    <string name="title_activity_user_map_ui">User Map</string>
+    <string name="DetailsOfTheIssueAtHand">DetailsOfTheIssueAtHand</string>
+    <string name="typeOfVehicle">Kind Of Vehicle</string>
+    <string name="pancturedpart">Panctured part</string>
+    <string name="enterthecarmodel">Enter the Carmodel</string>
+    <string name="make_order">Make Order</string>
+    <string name="pending_orders">Pending Orders</string>
+    <string name="completed_orders">Completed Orders</string>
+    <string name="request">Request a Mechanic</string>
+    <string name="accept_request">Accept Request</string>
+    <string name="mechnic_login">Mechanic</string>
+    <string name="user_login">User</string>
 </resources>
