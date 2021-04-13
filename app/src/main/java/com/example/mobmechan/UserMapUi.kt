@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.mobmechan
 
 import android.Manifest
@@ -33,7 +35,7 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
-class UserMapUi constructor() : FragmentActivity(), OnMapReadyCallback,
+class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
     private var mMap: GoogleMap? = null
