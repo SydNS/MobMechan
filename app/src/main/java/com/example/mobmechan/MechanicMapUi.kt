@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -42,6 +43,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     var locationRequest: LocationRequest? = null
     private var LogoutDriverBtn: Button? = null
     private var SettingsDriverButton: Button? = null
+    private var callingbtn: Button? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
     private var currentLogOutUserStatus: Boolean = false
@@ -57,52 +59,56 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var txtPhone: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
+    lateinit var phone: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //notice
         setContentView(R.layout.activity_driver_map)
         mAuth = FirebaseAuth.getInstance()
-        currentUser = mAuth!!.getCurrentUser()
-        driverID = mAuth!!.getCurrentUser().getUid()
+        currentUser = mAuth!!.currentUser
+        driverID = mAuth!!.currentUser.uid
         LogoutDriverBtn = findViewById<View>(R.id.logout_driv_btn) as Button?
         SettingsDriverButton = findViewById<View>(R.id.settings_driver_btn) as Button?
+        callingbtn =findViewById(R.id.callingbtn)
         txtName = findViewById(R.id.name_customer)
         txtPhone = findViewById(R.id.phone_customer)
         profilePic = findViewById(R.id.profile_image_customer)
         relativeLayout = findViewById(R.id.rel2)
-        val mapFragment: SupportMapFragment? = getSupportFragmentManager()
+        val mapFragment: SupportMapFragment? = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this@MechanicMapUi)
-        SettingsDriverButton!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(view: View) {
-                val intent: Intent = Intent(this@MechanicMapUi, SettingsActivity::class.java)
-                intent.putExtra("type", "Drivers")
-                startActivity(intent)
-            }
-        })
-        LogoutDriverBtn!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(v: View) {
-                currentLogOutUserStatus = true
-                DisconnectDriver()
-                mAuth!!.signOut()
-                LogOutUser()
-            }
-        })
+        SettingsDriverButton!!.setOnClickListener {
+            val intent: Intent = Intent(this@MechanicMapUi, SettingsActivity::class.java)
+            intent.putExtra("type", "Drivers")
+            startActivity(intent)
+        }
+        LogoutDriverBtn!!.setOnClickListener {
+            currentLogOutUserStatus = true
+            DisconnectDriver()
+            mAuth!!.signOut()
+            LogOutUser()
+        }
+
+        callingbtn!!.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone"))
+            startActivity(intent)
+        }
+
         assignedCustomersRequest
     }
 
     //getting assigned customer location
     private val assignedCustomersRequest: Unit
         private get() {
-            AssignedCustomerRef = FirebaseDatabase.getInstance().getReference().child("Users")
+            AssignedCustomerRef = FirebaseDatabase.getInstance().reference.child("Users")
                 .child("Drivers").child((driverID)!!).child("CustomerRideID")
             AssignedCustomerRef!!.addValueEventListener(object : ValueEventListener {
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        customerID = dataSnapshot.getValue().toString()
+                        customerID = dataSnapshot.value.toString()
                         //getting assigned customer location
                         GetAssignedCustomerPickupLocation()
-                        relativeLayout!!.setVisibility(View.VISIBLE)
+                        relativeLayout!!.visibility = View.VISIBLE
                         assignedCustomerInformation
                     } else {
                         customerID = ""
@@ -124,31 +130,32 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
 
     private fun GetAssignedCustomerPickupLocation() {
         AssignedCustomerPickUpRef =
-            FirebaseDatabase.getInstance().getReference().child("Customer Requests")
+            FirebaseDatabase.getInstance().reference.child("Customer Requests")
                 .child(customerID).child("l")
         AssignedCustomerPickUpRefListner =
             AssignedCustomerPickUpRef!!.addValueEventListener(object : ValueEventListener {
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         val customerLocationMap: List<Any?>? =
-                            dataSnapshot.getValue() as List<Any?>?
+                            dataSnapshot.value as List<Any?>?
                         var LocationLat: Double = 0.0
                         var LocationLng: Double = 0.0
-                        if (customerLocationMap!!.get(0) != null) {
-                            LocationLat = customerLocationMap.get(0).toString().toDouble()
+                        if (customerLocationMap!![0] != null) {
+                            LocationLat = customerLocationMap[0].toString().toDouble()
                         }
-                        if (customerLocationMap.get(1) != null) {
-                            LocationLng = customerLocationMap.get(1).toString().toDouble()
+                        if (customerLocationMap[1] != null) {
+                            LocationLng = customerLocationMap[1].toString().toDouble()
                         }
                         val DriverLatLng: LatLng = LatLng(LocationLat, LocationLng)
                         PickUpMarker = mMap!!.addMarker(
-                            MarkerOptions().position(DriverLatLng).title("Customer PickUp Location")
+                            MarkerOptions().position(DriverLatLng)
+                                .title("Customer BreakDown Location")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))
                         )
                     }
                 }
 
-                public override fun onCancelled(databaseError: DatabaseError) {}
+                override fun onCancelled(databaseError: DatabaseError) {}
             })
     }
 
@@ -167,7 +174,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
             return
         }
         buildGoogleApiClient()
-        mMap!!.setMyLocationEnabled(true)
+        mMap!!.isMyLocationEnabled = true
     }
 
     public override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -175,10 +182,10 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     }
 
     public override fun onLocationChanged(location: Location) {
-        if (getApplicationContext() != null) {
+        if (applicationContext != null) {
             //getting the updated location
             LastLocation = location
-            val latLng: LatLng = LatLng(location.getLatitude(), location.getLongitude())
+            val latLng: LatLng = LatLng(location.latitude, location.longitude)
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             mMap!!.animateCamera(CameraUpdateFactory.zoomTo(12f))
             val userID: String = FirebaseAuth.getInstance().getCurrentUser().getUid()
@@ -209,9 +216,9 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
 
     public override fun onConnected(bundle: Bundle?) {
         locationRequest = LocationRequest()
-        locationRequest!!.setInterval(1000)
-        locationRequest!!.setFastestInterval(1000)
-        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        locationRequest!!.interval = 1000
+        locationRequest!!.fastestInterval = 1000
+        locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
@@ -274,7 +281,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                         val name: String = dataSnapshot.child("name").getValue().toString()
-                        val phone: String = dataSnapshot.child("phone").getValue().toString()
+                        phone = dataSnapshot.child("phone").value.toString()
                         txtName!!.setText(name)
                         txtPhone!!.setText(phone)
                         if (dataSnapshot.hasChild("image")) {

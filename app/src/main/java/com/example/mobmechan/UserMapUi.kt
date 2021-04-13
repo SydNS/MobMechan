@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -45,6 +46,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var Logout: Button? = null
     private var SettingsButton: Button? = null
     private var CallCabCarButton: Button? = null
+    private var callingbtn: Button? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
     private var CustomerDatabaseRef: DatabaseReference? = null
@@ -66,6 +68,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var txtCarName: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
+    lateinit var phone: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customers_map)
@@ -85,19 +88,18 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
         txtCarName = findViewById(R.id.car_name_driver)
         profilePic = findViewById(R.id.profile_image_driver)
         relativeLayout = findViewById(R.id.rel1)
+        callingbtn = findViewById(R.id.callingbtn)
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment: SupportMapFragment? = getSupportFragmentManager()
+        val mapFragment: SupportMapFragment? = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
-        SettingsButton!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(view: View) {
-                val intent: Intent = Intent(this@UserMapUi, SettingsActivity::class.java)
-                intent.putExtra("type", "Customers")
-                startActivity(intent)
-            }
-        })
+        SettingsButton!!.setOnClickListener {
+            val intent: Intent = Intent(this@UserMapUi, SettingsActivity::class.java)
+            intent.putExtra("type", "Customers")
+            startActivity(intent)
+        }
         Logout!!.setOnClickListener {
             mAuth!!.signOut()
             LogOutUser()
@@ -138,12 +140,17 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                 CustomerPickUpLocation =
                     LatLng(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
                 PickUpMarker = mMap!!.addMarker(
-                    MarkerOptions().position(CustomerPickUpLocation!!).title("My Location")
+                    MarkerOptions().position(CustomerPickUpLocation!!).title("Your Location")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))
                 )
-                CallCabCarButton!!.setText("Getting your Driver...")
+                CallCabCarButton!!.text = "Kindly Wait as We get you a Mechanic..."
                 closetDriverCab
             }
+        }
+
+        callingbtn!!.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone"))
+            startActivity(intent)
         }
     }//we tell driver which customer he is going to have
 
@@ -180,7 +187,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
 
                         //Show driver location on customerMapActivity
                         GettingDriverLocation()
-                        CallCabCarButton!!.setText("Looking for Driver Location...")
+                        CallCabCarButton!!.setText("Looking for Mechanic Location...")
                     }
                 }
 
@@ -188,12 +195,12 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                 public override fun onKeyMoved(key: String, location: GeoLocation) {}
                 public override fun onGeoQueryReady() {
                     if (!driverFound!!) {
-                        radius = radius + 1
+                        radius += 1
                         closetDriverCab
                     }
                 }
 
-                public override fun onGeoQueryError(error: DatabaseError) {}
+                override fun onGeoQueryError(error: DatabaseError) {}
             })
         }
 
@@ -203,17 +210,17 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
             .addValueEventListener(object : ValueEventListener {
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists() && requestType) {
-                        val driverLocationMap: List<Any?>? = dataSnapshot.getValue() as List<Any?>?
+                        val driverLocationMap: List<Any?>? = dataSnapshot.value as List<Any?>?
                         var LocationLat: Double = 0.0
                         var LocationLng: Double = 0.0
-                        CallCabCarButton!!.setText("Driver Found")
-                        relativeLayout!!.setVisibility(View.VISIBLE)
+                        CallCabCarButton!!.text = "Mechanic Found"
+                        relativeLayout!!.visibility = View.VISIBLE
                         assignedDriverInformation
                         if (driverLocationMap!!.get(0) != null) {
-                            LocationLat = driverLocationMap.get(0).toString().toDouble()
+                            LocationLat = driverLocationMap[0].toString().toDouble()
                         }
                         if (driverLocationMap.get(1) != null) {
-                            LocationLng = driverLocationMap.get(1).toString().toDouble()
+                            LocationLng = driverLocationMap[1].toString().toDouble()
                         }
 
                         //adding marker - to pointing where driver is - using this lat lng
@@ -229,13 +236,13 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                         location2.setLongitude(DriverLatLng.longitude)
                         val Distance: Float = location1.distanceTo(location2)
                         if (Distance < 90) {
-                            CallCabCarButton!!.setText("Driver's Reached")
+                            CallCabCarButton!!.setText("Mechanic has Reached")
                         } else {
-                            CallCabCarButton!!.setText("Driver Found: " + Distance.toString())
+                            CallCabCarButton!!.text = "Mechanic is  $Distance.toString() away"
                         }
                         DriverMarker = mMap!!.addMarker(
-                            MarkerOptions().position(DriverLatLng).title("your driver is here")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+                            MarkerOptions().position(DriverLatLng).title("your Mechanic is here")
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mechanic))
                         )
                     }
                 }
@@ -264,9 +271,9 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
 
     public override fun onConnected(bundle: Bundle?) {
         locationRequest = LocationRequest()
-        locationRequest!!.setInterval(1000)
-        locationRequest!!.setFastestInterval(1000)
-        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        locationRequest!!.interval = 1000
+        locationRequest!!.fastestInterval = 1000
+        locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
@@ -290,7 +297,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     public override fun onLocationChanged(location: Location) {
         //getting the updated location
         LastLocation = location
-        val latLng: LatLng = LatLng(location.getLatitude(), location.getLongitude())
+        val latLng: LatLng = LatLng(location.latitude, location.longitude)
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         mMap!!.animateCamera(CameraUpdateFactory.zoomTo(12f))
     }
@@ -319,19 +326,19 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
 
     private val assignedDriverInformation: Unit
         private get() {
-            val reference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
+            val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
                 .child("Users").child("Drivers").child((driverFoundID)!!)
             reference.addValueEventListener(object : ValueEventListener {
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                        val name: String = dataSnapshot.child("name").getValue().toString()
-                        val phone: String = dataSnapshot.child("phone").getValue().toString()
-                        val car: String = dataSnapshot.child("car").getValue().toString()
-                        txtName!!.setText(name)
-                        txtPhone!!.setText(phone)
-                        txtCarName!!.setText(car)
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        val name: String = dataSnapshot.child("name").value.toString()
+                        phone = dataSnapshot.child("phone").value.toString()
+                        val car: String = dataSnapshot.child("car").value.toString()
+                        txtName!!.text = name
+                        txtPhone!!.text = phone
+                        txtCarName!!.text = car
                         if (dataSnapshot.hasChild("image")) {
-                            val image: String = dataSnapshot.child("image").getValue().toString()
+                            val image: String = dataSnapshot.child("image").value.toString()
                             Picasso.get().load(image).into(profilePic)
                         }
                     }
