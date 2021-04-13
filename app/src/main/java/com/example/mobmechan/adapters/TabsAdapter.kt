@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.mobimech.adapters
+package com.example.mobmechan.adapters
 
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment

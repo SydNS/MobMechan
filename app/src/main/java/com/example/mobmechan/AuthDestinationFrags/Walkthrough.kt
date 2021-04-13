@@ -1,4 +1,5 @@
-package com.example.mobimech.AuthDestinationFrags
+package com.example.mobmechan.AuthDestinationFrags
+
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,11 +14,10 @@ import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.transition.Visibility
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mobimech.adapters.WalkthroughRecyclerviewdapter
 import com.example.mobimech.mobimechsharedpreferences.IsItTheAppsFirstTimeOpenning
 import com.example.mobimech.models.DisplayItem
-
 import com.example.mobmechan.R
+import com.example.mobmechan.adapters.WalkthroughRecyclerviewdapter
 import com.example.mobmechan.databinding.FragmentWalkthroughBinding
 
 // TODO: Rename parameter arguments, choose names that match

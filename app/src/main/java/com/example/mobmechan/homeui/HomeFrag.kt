@@ -1,4 +1,4 @@
-package com.example.mobimech.homeui
+package com.example.mobmechan.homeui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
-import com.example.mobimech.adapters.TabsAdapter
+import com.example.mobmechan.adapters.TabsAdapter
 import com.example.mobmechan.databinding.FragmentHomeBinding
 
 

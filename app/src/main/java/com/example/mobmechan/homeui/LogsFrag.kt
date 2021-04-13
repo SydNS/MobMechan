@@ -1,4 +1,4 @@
-package com.example.mobimech.homeui
+package com.example.mobmechan.AuthDestinationFrags
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mobimech.adapters.OrdersRRecyclerViewAdapter
 import com.example.mobimech.models.OrderListItem
+import com.example.mobmechan.OrdersRRecyclerViewAdapter
 import com.example.mobmechan.databinding.LogsfragBinding
 
 class LogsFrag : Fragment() {

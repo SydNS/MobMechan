@@ -36,6 +36,7 @@
         <activity android:name=".UserMapUi" />
         <activity android:name=".MechanicMapUi" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name="." />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

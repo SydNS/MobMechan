@@ -1,4 +1,4 @@
-package com.example.mobimech.AuthDestinationFrags
+package com.example.mobmechan.AuthDestinationFrags
 
 import android.content.ContentValues.TAG
 import android.content.Intent

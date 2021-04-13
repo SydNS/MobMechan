@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.mobimech.UI
+package com.example.mobmechan
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

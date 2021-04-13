@@ -1,4 +1,5 @@
-package com.example.mobimech.mobimechsharedpreferences
+
+package com.example.mobmechan.mobimechsharedpreferences
 
 import android.content.Context
 

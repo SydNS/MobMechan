@@ -1,6 +1,7 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.mobimech.AuthDestinationFrags
+package com.example.mobmechan.AuthDestinationFrags
+
 
 import android.os.Bundle
 import android.os.Handler

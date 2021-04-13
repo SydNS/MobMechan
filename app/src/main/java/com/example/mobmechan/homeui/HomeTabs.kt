@@ -1,12 +1,11 @@
-package com.example.mobimech.homeui
-
+package com.example.mobmechan.homeui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.mobmechan.adapters.TabsAdapter
 
-import com.example.mobimech.adapters.TabsAdapter
 
 import com.example.mobmechan.databinding.FragmentHomeTabsBinding
 
@@ -43,7 +42,7 @@ class HomeTabs : Fragment() {
         // Inflate the layout for this fragment
 
         homeTabsBinding= FragmentHomeTabsBinding.inflate(inflater, container, false)
-        homeTabsBinding.viewpager.adapter=TabsAdapter(childFragmentManager)
+        homeTabsBinding.viewpager.adapter= TabsAdapter(childFragmentManager)
         homeTabsBinding.tabLayout.setupWithViewPager(homeTabsBinding.viewpager)
 
 

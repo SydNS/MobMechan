@@ -1,5 +1,4 @@
 package com.example.mobmechan
-
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle

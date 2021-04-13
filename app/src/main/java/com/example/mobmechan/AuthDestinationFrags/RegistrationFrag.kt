@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
+package com.example.mobmechan.AuthDestinationFrags
 
-package com.example.mobimech.AuthDestinationFrags
 
 import android.R.attr.name
 import android.app.ProgressDialog

@@ -1,4 +1,4 @@
-package com.example.mobimech.adapters
+package com.example.mobmechan
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
