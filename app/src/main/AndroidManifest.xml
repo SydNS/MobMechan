@@ -30,22 +30,19 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".CustomerMapsActivity"
-            android:label="@string/title_activity_customer_maps"></activity>
-        <activity android:name=".MainActivity2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".CustomerLoginRegisterActivity" />
         <activity android:name=".DriverLoginRegisterActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".CustomersMapActivity" />
         <activity android:name=".DriverMapActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
     </application>
