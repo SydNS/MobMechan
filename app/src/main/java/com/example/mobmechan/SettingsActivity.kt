@@ -39,13 +39,13 @@ class SettingsActivity constructor() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        getType = getIntent().getStringExtra("type")
+        getType = intent.getStringExtra("type")
         Toast.makeText(this, getType, Toast.LENGTH_SHORT).show()
         mAuth = FirebaseAuth.getInstance()
         databaseReference =
-            FirebaseDatabase.getInstance().getReference().child("Users").child((getType)!!)
+            FirebaseDatabase.getInstance().reference.child("Users").child((getType)!!)
         storageProfilePicsRef =
-            FirebaseStorage.getInstance().getReference().child("Profile Pictures")
+            FirebaseStorage.getInstance().reference.child("Profile Pictures")
         profileImageView = findViewById(R.id.profile_image)
         nameEditText = findViewById(R.id.name)
         phoneEditText = findViewById(R.id.phone_number)
@@ -182,7 +182,7 @@ class SettingsActivity constructor() : AppCompatActivity() {
             userMap.put("name", nameEditText!!.getText().toString())
             userMap.put("phone", phoneEditText!!.getText().toString())
             if ((getType == "Drivers")) {
-                userMap.put("car", driverCarName!!.getText().toString())
+                userMap.put("car", driverCarName!!.text.toString())
             }
             databaseReference!!.child(mAuth!!.getCurrentUser().getUid()).updateChildren(userMap)
             if ((getType == "Drivers")) {
