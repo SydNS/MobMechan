@@ -4,16 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/walkthrubtnbackground"
     tools:context=".DriverLoginRegisterActivity">
 
+
+    <ImageView
+        android:id="@+id/logoimage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:contentDescription="@string/this_is_the_applogo"
+        android:src="@mipmap/logog_round" />
+
+
     <TextView
-        android:id="@+id/titlr_driver"
+        android:layout_below="@+id/logoimage"
+        android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/driver_email"
+        android:layout_marginTop="70dp"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="38dp"
-        android:text="Driver Login"
+        android:text="Mechanic Login"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -21,31 +34,40 @@
         android:layout_alignParentLeft="true"
         android:gravity="center_horizontal" />
 
-    <EditText
-        android:id="@+id/driver_email"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mechanic_email"
+        style="@style/LoginTextInputLayoutStyle"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:hint="Email..."
-        android:inputType="textEmailAddress" />
+        android:layout_marginTop="20dp"
+        android:textColorHint="@color/whiteTextColor">
 
-    <EditText
-        android:id="@+id/driver_password"
-        android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailSubject"
+            android:hint="@string/enter_your_email_phone_number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mechanic_password"
+        style="@style/LoginTextInputLayoutStyle"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Password..."
-        android:inputType="textPassword"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/driver_email"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/mechanic_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColorHint="@color/whiteTextColor">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/enter_your_password" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_driver_btn"
@@ -57,8 +79,8 @@
         android:textAllCaps="false"
         android:textColor="?attr/actionMenuTextColor"
         android:textSize="24sp"
-        android:layout_marginTop="13dp"
-        android:layout_below="@+id/driver_password"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/mechanic_password"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -82,7 +104,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/create_driver_account"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="20dp"
         android:background="@android:color/holo_red_light"
         android:text="Register"
         android:textColor="@android:color/background_light"
