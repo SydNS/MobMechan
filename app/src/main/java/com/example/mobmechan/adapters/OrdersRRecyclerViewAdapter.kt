@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobimech.databinding.OrderlistLayoutBinding
 import com.example.mobimech.models.OrderListItem
+import com.example.mobmechan.databinding.OrderlistLayoutBinding
 
 class OrdersRRecyclerViewAdapter(val orderlistItem: ArrayList<OrderListItem>) :
     RecyclerView.Adapter<OrdersRRecyclerViewAdapter.ViewHolder>() {

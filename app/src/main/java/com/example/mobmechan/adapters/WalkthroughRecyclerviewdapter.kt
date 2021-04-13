@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobimech.R
 import com.example.mobimech.databinding.ListLayoutBinding
 import com.example.mobimech.models.DisplayItem
+import com.example.mobmechan.databinding.ListLayoutBinding
 
 class WalkthroughRecyclerviewdapter(val userList: ArrayList<DisplayItem>) :
     RecyclerView.Adapter<WalkthroughRecyclerviewdapter.ViewHolder>() {
