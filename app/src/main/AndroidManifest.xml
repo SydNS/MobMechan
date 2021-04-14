@@ -10,11 +10,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logog_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobMechan">
 
@@ -31,19 +32,20 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".CustomerLoginRegisterActivity"
-            android:theme="@style/Theme.MaterialComponents" />
+            android:theme="@style/Theme.MobiMech" />
         <activity android:name=".DriverLoginRegisterActivity"
-            android:theme="@style/Theme.MaterialComponents" />
+            android:theme="@style/Theme.MobiMech" />
         <activity android:name=".WelcomeActivity"
-            android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".UserMapUi" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".UserMapUi"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".MechanicMapUi"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".SettingsActivity"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
