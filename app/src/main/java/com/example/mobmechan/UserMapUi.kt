@@ -46,7 +46,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var Logout: Button? = null
     private var SettingsButton: Button? = null
     private var CallCabCarButton: Button? = null
-    private var callingbtn: Button? = null
+    private var callingbtn: ImageView? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
     private var CustomerDatabaseRef: DatabaseReference? = null
@@ -68,7 +68,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var txtCarName: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
-    lateinit var phone: String
+//    lateinit var phone: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customers_map)
@@ -149,7 +149,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
         }
 
         callingbtn!!.setOnClickListener {
-            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone"))
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:0701315149"))
             startActivity(intent)
         }
     }//we tell driver which customer he is going to have
@@ -242,7 +242,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                         }
                         DriverMarker = mMap!!.addMarker(
                             MarkerOptions().position(DriverLatLng).title("your Mechanic is here")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mechanic))
+                                .icon(BitmapDescriptorFactory.defaultMarker())
                         )
                     }
                 }
@@ -332,7 +332,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
                         val name: String = dataSnapshot.child("name").value.toString()
-                        phone = dataSnapshot.child("phone").value.toString()
+                        val phone = dataSnapshot.child("phone").value.toString()
                         val car: String = dataSnapshot.child("car").value.toString()
                         txtName!!.text = name
                         txtPhone!!.text = phone

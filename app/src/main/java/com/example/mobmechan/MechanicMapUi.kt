@@ -43,7 +43,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     var locationRequest: LocationRequest? = null
     private var LogoutDriverBtn: Button? = null
     private var SettingsDriverButton: Button? = null
-    private var callingbtn: Button? = null
+    private var callingbtn: ImageView? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
     private var currentLogOutUserStatus: Boolean = false
@@ -59,7 +59,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var txtPhone: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
-    lateinit var phone: String
+//    lateinit var phone: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //notice
@@ -90,7 +90,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
         }
 
         callingbtn!!.setOnClickListener {
-            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone"))
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:0780134747"))
             startActivity(intent)
         }
 
@@ -279,13 +279,13 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
                 .child("Users").child("Customers").child(customerID)
             reference.addValueEventListener(object : ValueEventListener {
                 public override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                        val name: String = dataSnapshot.child("name").getValue().toString()
-                        phone = dataSnapshot.child("phone").value.toString()
-                        txtName!!.setText(name)
-                        txtPhone!!.setText(phone)
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        val name: String = dataSnapshot.child("name").value.toString()
+                        val phone = dataSnapshot.child("phone").value.toString()
+                        txtName!!.text = name
+                        txtPhone!!.text = phone
                         if (dataSnapshot.hasChild("image")) {
-                            val image: String = dataSnapshot.child("image").getValue().toString()
+                            val image: String = dataSnapshot.child("image").value.toString()
                             Picasso.get().load(image).into(profilePic)
                         }
                     }
