@@ -50,9 +50,21 @@ class SettingsActivity constructor() : AppCompatActivity() {
         nameEditText = findViewById(R.id.name)
         phoneEditText = findViewById(R.id.phone_number)
         driverCarName = findViewById(R.id.driver_car_name)
-        if ((getType == "Drivers")) {
-            driverCarName?.setVisibility(View.VISIBLE)
-            driverCarName?.hint="Enter Your Details"
+        driverCarName?.visibility = View.VISIBLE
+
+//        if ((getType == "Drivers")) {
+//            driverCarName?.hint="Enter Your Details"
+//        }else{
+//            driverCarName?.hint="Enter Your Details"
+//
+//        }
+        when(getType){
+            "Customers"->{
+                driverCarName?.hint="Enter Your Situation Details"
+            }
+            "Drivers"->{
+                driverCarName?.hint="Enter Your Mechanic Details"
+            }
         }
         closeButton = findViewById(R.id.close_button)
         saveButton = findViewById(R.id.save_button)
@@ -129,40 +141,38 @@ class SettingsActivity constructor() : AppCompatActivity() {
                     }
                 }
                 fileRef.downloadUrl
-            }.addOnCompleteListener(object : OnCompleteListener<Uri> {
-                public override fun onComplete(task: Task<Uri>) {
-                    if (task.isSuccessful()) {
-                        val downloadUrl: Uri = task.getResult()
-                        myUrl = downloadUrl.toString()
-                        val userMap: HashMap<String, Any> = HashMap()
-                        userMap.put("uid", mAuth!!.getCurrentUser().getUid())
-                        userMap.put("name", nameEditText!!.getText().toString())
-                        userMap.put("phone", phoneEditText!!.getText().toString())
-                        userMap.put("image", myUrl)
-                        if ((getType == "Drivers")) {
-                            userMap.put("car", driverCarName!!.getText().toString())
-                        }
-                        databaseReference!!.child(mAuth!!.getCurrentUser().getUid())
-                            .updateChildren(userMap)
-                        progressDialog.dismiss()
-                        if ((getType == "Drivers")) {
-                            startActivity(
-                                Intent(
-                                    this@SettingsActivity,
-                                    MechanicMapUi::class.java
-                                )
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUrl: Uri = task.result
+                    myUrl = downloadUrl.toString()
+                    val userMap: HashMap<String, Any> = HashMap()
+                    userMap.put("uid", mAuth!!.getCurrentUser().uid)
+                    userMap.put("name", nameEditText!!.text.toString())
+                    userMap.put("phone", phoneEditText!!.text.toString())
+                    userMap.put("image", myUrl)
+                    if ((getType == "Drivers")) {
+                        userMap.put("car", driverCarName!!.getText().toString())
+                    }
+                    databaseReference!!.child(mAuth!!.getCurrentUser().getUid())
+                        .updateChildren(userMap)
+                    progressDialog.dismiss()
+                    if ((getType == "Drivers")) {
+                        startActivity(
+                            Intent(
+                                this@SettingsActivity,
+                                MechanicMapUi::class.java
                             )
-                        } else {
-                            startActivity(
-                                Intent(
-                                    this@SettingsActivity,
-                                    UserMapUi::class.java
-                                )
+                        )
+                    } else {
+                        startActivity(
+                            Intent(
+                                this@SettingsActivity,
+                                UserMapUi::class.java
                             )
-                        }
+                        )
                     }
                 }
-            })
+            }
         } else {
             Toast.makeText(this, "Image is not selected.", Toast.LENGTH_SHORT).show()
         }
@@ -200,13 +210,13 @@ class SettingsActivity constructor() : AppCompatActivity() {
             databaseReference!!.child(mAuth!!.getCurrentUser().getUid())
                 .addValueEventListener(object : ValueEventListener {
                     public override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                            val name: String = dataSnapshot.child("name").getValue().toString()
-                            val phone: String = dataSnapshot.child("phone").getValue().toString()
+                        if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                            val name: String = dataSnapshot.child("name").value.toString()
+                            val phone: String = dataSnapshot.child("phone").value.toString()
                             nameEditText!!.setText(name)
                             phoneEditText!!.setText(phone)
                             if ((getType == "Drivers")) {
-                                val car: String = dataSnapshot.child("car").getValue().toString()
+                                val car: String = dataSnapshot.child("car").value.toString()
                                 driverCarName!!.setText(car)
                             }
                             if (dataSnapshot.hasChild("image")) {
