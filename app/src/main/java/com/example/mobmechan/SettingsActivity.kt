@@ -52,26 +52,28 @@ class SettingsActivity constructor() : AppCompatActivity() {
         driverCarName = findViewById(R.id.driver_car_name)
         if ((getType == "Drivers")) {
             driverCarName?.setVisibility(View.VISIBLE)
+            driverCarName?.hint="Enter Your Details"
         }
         closeButton = findViewById(R.id.close_button)
         saveButton = findViewById(R.id.save_button)
         profileChangeBtn = findViewById(R.id.change_picture_btn)
         closeButton?.setOnClickListener {
-            if ((getType == "Drivers")) {
-                startActivity(Intent(this@SettingsActivity, MechanicMapUi::class.java))
-            } else {
-                startActivity(Intent(this@SettingsActivity, UserMapUi::class.java))
-            }
-        }
-        saveButton?.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(view: View) {
-                if ((checker == "clicked")) {
-                    validateControllers()
-                } else {
-                    validateAndSaveOnlyInformation()
+            when (getType) {
+                "Drivers" -> {
+                    startActivity(Intent(this@SettingsActivity, MechanicMapUi::class.java))
+                }
+                else -> {
+                    startActivity(Intent(this@SettingsActivity, UserMapUi::class.java))
                 }
             }
-        })
+        }
+        saveButton?.setOnClickListener {
+            if ((checker == "clicked")) {
+                validateControllers()
+            } else {
+                validateAndSaveOnlyInformation()
+            }
+        }
         profileChangeBtn?.setOnClickListener(View.OnClickListener {
             checker = "clicked"
             CropImage.activity()
