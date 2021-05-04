@@ -65,6 +65,9 @@ class SettingsActivity constructor() : AppCompatActivity() {
             "Drivers"->{
                 driverCarName?.hint="Enter Your Mechanic Details"
             }
+            else->{
+                driverCarName?.hint="Enter Your Details"
+            }
         }
         closeButton = findViewById(R.id.close_button)
         saveButton = findViewById(R.id.save_button)

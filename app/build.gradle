@@ -69,9 +69,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     implementation 'com.google.firebase:firebase-storage:19.2.2'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
-
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-
     implementation 'com.android.support:multidex:1.0.3'
 
 

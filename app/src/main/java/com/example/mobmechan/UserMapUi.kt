@@ -91,6 +91,7 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
         callingbtn = findViewById(R.id.callingbtn)
 
 
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment: SupportMapFragment? = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
@@ -135,10 +136,10 @@ class UserMapUi  : FragmentActivity(), OnMapReadyCallback,
                 val geoFire: GeoFire = GeoFire(CustomerDatabaseRef)
                 geoFire.setLocation(
                     customerId,
-                    GeoLocation(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
+                    GeoLocation(LastLocation!!.latitude, LastLocation!!.longitude)
                 )
                 CustomerPickUpLocation =
-                    LatLng(LastLocation!!.getLatitude(), LastLocation!!.getLongitude())
+                    LatLng(LastLocation!!.latitude, LastLocation!!.longitude)
                 PickUpMarker = mMap!!.addMarker(
                     MarkerOptions().position(CustomerPickUpLocation!!).title("Your Location")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.user))

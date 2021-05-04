@@ -34,7 +34,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
+class MechanicMapUi : FragmentActivity(), OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
     private var mMap: GoogleMap? = null
@@ -43,7 +43,8 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     var locationRequest: LocationRequest? = null
     private var LogoutDriverBtn: Button? = null
     private var SettingsDriverButton: Button? = null
-    private var callingbtn: ImageView? = null
+
+    //    private lateinit var callingbtn: Button
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
     private var currentLogOutUserStatus: Boolean = false
@@ -59,7 +60,8 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
     private var txtPhone: TextView? = null
     private var profilePic: CircleImageView? = null
     private var relativeLayout: RelativeLayout? = null
-//    lateinit var phone: String
+
+    //    lateinit var phone: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //notice
@@ -69,7 +71,8 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
         driverID = mAuth!!.currentUser.uid
         LogoutDriverBtn = findViewById<View>(R.id.logout_driv_btn) as Button?
         SettingsDriverButton = findViewById<View>(R.id.settings_driver_btn) as Button?
-        callingbtn =findViewById(R.id.callingbtn)
+
+        val callingbtn: Button = findViewById(R.id.callingbtn)
         txtName = findViewById(R.id.name_customer)
         txtPhone = findViewById(R.id.phone_customer)
         profilePic = findViewById(R.id.profile_image_customer)
@@ -92,6 +95,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
         callingbtn!!.setOnClickListener {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:0780134747"))
             startActivity(intent)
+
         }
 
         assignedCustomersRequest
@@ -99,7 +103,7 @@ class MechanicMapUi  : FragmentActivity(), OnMapReadyCallback,
 
     //getting assigned customer location
     private val assignedCustomersRequest: Unit
-        private get() {
+        get() {
             AssignedCustomerRef = FirebaseDatabase.getInstance().reference.child("Users")
                 .child("Drivers").child((driverID)!!).child("CustomerRideID")
             AssignedCustomerRef!!.addValueEventListener(object : ValueEventListener {
